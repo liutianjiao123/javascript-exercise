@@ -39,6 +39,7 @@ var result = judge([lihao, xida, peng, liaoxiaofeng]);
 console.log(result);
 let arr = [];
 // 根据分数选取前三名
+// 然后
 for (var name in result) {
     console.log("name:" + name);
     console.log("score:" + result[name]);
