@@ -1,0 +1,99 @@
+<app-navbar [themes]="themes" [selectedTheme]="selectedTheme" (themeSelectionChanged)="onThemeSelectionChanged($event)"></app-navbar>
+
+
+<h2 id="appUnless">UnlessDirective</h2>
+<p>
+  The condition is currently
+  <span [ngClass]="{ 'a': !condition, 'b': condition, 'unless': true }">{{condition}}</span>.
+  <button
+    (click)="condition = !condition"
+    [ngClass] = "{ 'a': condition, 'b': !condition }" >
+    Toggle condition to {{condition ? 'false' : 'true'}}
+  </button>
+</p>
+<p *appUnless="condition" class="unless a">
+  (A) This paragraph is displayed because the condition is false.
+</p>
+
+<p *appUnless="!condition" class="unless b">
+  (B) Although the condition is true,
+  this paragraph is displayed because appUnless is set to false.
+</p>
+
+
+<div class="container">
+  <article>
+    <h1>Heading 1</h1>
+    <h2>Heading 2</h2>
+    <h3>Heading 3</h3>
+    <h4>Heading 4</h4>
+  </article>
+  <div class="alert alert-primary" role="alert">
+    这是一个警告框
+  </div>
+  <div class="alert alert-secondary" role="alert">
+    A simple secondary alert—check it out!
+  </div>
+  <div class="alert alert-success" role="alert">
+    A simple success alert—check it out!
+  </div>
+  <div class="alert alert-danger" role="alert">
+    A simple danger alert—check it out!
+  </div>
+  <div class="alert alert-warning" role="alert">
+    A simple warning alert—check it out!
+  </div>
+  <div class="alert alert-info" role="alert">
+    A simple info alert—check it out!
+  </div>
+  <div class="alert alert-light" role="alert">
+    A simple light alert—check it out!
+  </div>
+  <div class="alert alert-dark" role="alert">
+    A simple dark alert—check it out!
+  </div>
+
+  <button type="button" class="btn btn-primary">Primary</button>
+  <button type="button" class="btn btn-secondary">Secondary</button>
+  <button type="button" class="btn btn-success">成功</button>
+  <button type="button" class="btn btn-danger">失败</button>
+  <button type="button" class="btn btn-warning">警告</button>
+  <button type="button" class="btn btn-info">信息</button>
+  <button type="button" class="btn btn-light">Light</button>
+  <button type="button" class="btn btn-dark">Dark</button>
+
+  <button type="button" class="btn btn-link">Link</button>
+</div>
+
+  <div class="test-attr" [attr.data-author]="test" data-time="2011-06-20"
+     data-comment-num="10"  data-category="javascript">
+  asdasdfsdaf
+</div>
+
+<div class="txtb">
+  <input type="text" [ngClass]="{'focus': pwd}" (focus)="pwd = true"
+         (blur)="onBlur($event)">
+  <span [attr.data-placeholder]="tipText"></span>
+</div>
+
+<div *ngFor="let hero of heroes; let i=index; let odd=odd;let even=even;last as last;first as first; trackBy: trackById" [class.odd]="odd">
+  ({{i}}) - {{hero.name}} - {{trackById}} - isOdd: {{odd}} - isEven: {{even}} - isLast: {{last}} - isFirst: {{first}}
+</div>
+
+<ng-template ngFor let-hero [ngForOf]="heroes" let-i="index" let-odd="odd" [ngForTrackBy]="trackById">
+  <div [class.odd]="odd">({{i}}) {{hero.name}}</div>
+</ng-template>
+
+<div>
+  Pick your favorite hero
+  (<label><input type="checkbox" checked (change)="showSad = !showSad">show sad</label>)
+</div>
+<select [(ngModel)]="hero">
+  <ng-container *ngFor="let h of heroes">
+    <ng-container *ngIf="showSad || h.name !== 'sad'">
+      <option [ngValue]="h">{{h.name}} ({{h.name}})</option>
+    </ng-container>
+  </ng-container>
+</select>
+
+

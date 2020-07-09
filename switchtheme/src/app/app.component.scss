@@ -1,0 +1,101 @@
+.widget {
+  &-ok {
+
+  }
+
+  &but{
+
+  }
+
+  & & {
+
+  }
+}
+
+
+.test-attr {
+  height: 200px;
+  width: 200px;
+  background-color: #fcfcfd;
+  color: #000;
+  margin: 0 auto;
+
+  &:after {
+    content: attr(data-author);
+  }
+}
+
+
+.txtb {
+  position: relative;
+  width: 300px;
+  margin: 30px auto;
+  border-bottom: 2px solid #adadad;
+
+  input {
+    height: 40px;
+    font-size: 15px;
+    color: #000;
+    //border: none;
+    width: 100%;
+    //outline: none;
+    //background: none;
+    padding: 0 5px;
+
+  }
+  span::before{
+    content: attr(data-placeholder);
+    position: absolute;
+    bottom: 50%;
+    left: 5px;
+    color: #000;
+    transform: translateY(50%);
+    z-index: 1;
+    transition: .5s;
+  }
+
+  span::after {
+    content: '';
+    position: absolute;
+    width: 0%;
+    height: 2px;
+    background: linear-gradient(120deg, #3498db, 8e44ad);
+    transition: .5s;
+  }
+}
+
+.focus+span::before {
+  bottom: -10px;
+}
+
+.focus+span::after {
+  width: 100%;
+}
+
+.odd{
+  //background-color: lighten(#ff0000, 50%);
+  background-color: red;
+}
+
+.unless {
+  border: 2px solid;
+  padding: 6px;
+}
+
+p.unless {
+  width: 500px;
+}
+
+button.a, span.a, .unless.a {
+  color: red;
+  border-color: gold;
+  background-color: yellow;
+  font-size: 100%;
+}
+
+button.b, span.b, .unless.b {
+  color: black;
+  border-color: green;
+  background-color: lightgreen;
+  font-size: 100%;
+}
