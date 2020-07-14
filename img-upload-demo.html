@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        display: table;
+        word-spacing: -1em;
+      }
+      .demo {
+        display: inline-block;
+        /* float: left; */
+        height: 300px;
+        width: 200px;
+        background-color: #009507;
+        /* vertical-align: baseline; */
+        vertical-align: middle;
+        font-size: 16px;
+      }
+
+      .inner {
+        height: 100px;
+        width: 100px;
+        background-color: #fff;
+        margin: 20px auto 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="demo" class="demo">
+      <div class="inner"></div>
+    </div>
+    <div id="imgBox" class="demo"></div>
+    <div class="demo">
+      请自觉对齐
+    </div>
+
+    <input type="file" name="demo" id="txtFile" />
+    <input type="file" name="demo" id="imgFile" />
+
+    <script>
+      const input = document.querySelector("input[type=file]");
+      const inputImg = document.querySelector("#imgFile");
+      const divEl = document.querySelector("#demo");
+      const imgDiv = document.querySelector("#imgBox");
+      input.addEventListener(
+        "change",
+        () => {
+          const reader = new FileReader();
+          console.log("input :", input.files[0]);
+          reader.readAsText(input.files[0], "utf8"); // input.files[0]为第一个文件
+          reader.onload = () => {
+            divEl.innerHTML += reader.result; // reader.result为获取结果
+          };
+        },
+        false
+      );
+
+      input.onchange = function(e) {
+          const files = e.target.files;
+          console.log('files :>> ', files);
+      }
+
+      inputImg.addEventListener(
+        "change",
+        () => {
+          const reader = new FileReader();
+          console.log("inputImg :>> ", inputImg.files[0]);
+          reader.readAsDataURL(inputImg.files[0]); // input.files[0]为第一个文件
+          console.log("reader :", reader);
+          reader.onload = () => {
+            const img = new Image();
+            console.log('img :>> ', img);
+            console.log("reader.result :", reader.result);
+            img.src = reader.result;
+            imgDiv.appendChild(img); // reader.result为获取结果
+          };
+        },
+        false
+      );
+    </script>
+  </body>
+</html>
