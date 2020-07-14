@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vue Learning 01</title>
+  </head>
+  <body>
+    <div id="app">
+      <h1>{{message}}</h1>
+      <span v-bind:title="message">
+        鼠标悬停几秒钟查看此处动态绑定的提示信息！
+      </span>
+
+      <button-counter></button-counter>
+      <ul>
+        <todo-item
+          v-for="item in groceryList"
+          v-bind:todo="item"
+          v-bind:key="item.id"
+        ></todo-item>
+      </ul>
+
+      <p>
+        Ask a yes/no question:
+        <input v-model="question" />
+      </p>
+      <p>{{ answer }}</p>
+      <img height="500" width="500" :src="imgUrl" alt="">
+    </div>
+
+    <script src="https://cdn.bootcdn.net/ajax/libs/vue/2.6.11/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios@0.12.0/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lodash@4.13.1/lodash.min.js"></script>
+    <script src="./first-com.js"></script>
+    <script src="./todo-item.js"></script>
+    <script>
+      const app = new Vue({
+        el: "#app",
+        data: {
+          a: "hello, jap",
+          message: "hello, world",
+          groceryList: [
+            { id: 0, text: "蔬菜" },
+            { id: 1, text: "奶酪" },
+            { id: 2, text: "随便其它什么人吃的东西" },
+          ],
+          question: "",
+          imgUrl: "https://yesno.wtf/assets/yes/6-304e564038051dab8a5aa43156cdc20d.gif",
+          answer: "I cannot give you an answer until you ask a question!",
+        },
+        watch: {
+          // 如果 `question` 发生改变，这个函数就会运行
+          question: function (newQuestion, oldQuestion) {
+            this.answer = "Waiting for you to stop typing...";
+            this.debouncedGetAnswer();
+          },
+        },
+        methods: {
+          getAnswer: function () {
+            if (this.question.indexOf("?") === -1) {
+              this.answer = "Questions usually contain a question mark. ;-)";
+              return;
+            }
+            this.answer = "Thinking...";
+            var vm = this;
+            axios
+              .get("https://yesno.wtf/api")
+              .then(function (response) {
+                console.log("response :>> ", response);
+                vm.answer = _.capitalize(response.data.answer);
+                vm.imgUrl = response.data.image
+              })
+              .catch(function (error) {
+                vm.answer = "Error! Could not reach the API. " + error;
+              });
+          },
+        },
+        beforeCreate: function () {
+          console.log("beforeCreate");
+        },
+        created: function () {
+          console.log("this :>> ", this);
+          // `this` 指向 vm 实例
+          console.log("a is: " + this.a);
+          this.debouncedGetAnswer = _.debounce(this.getAnswer, 500);
+        },
+        beforeMount() {
+          console.log("beforeMount");
+        },
+        mounted() {
+          console.log("mounted");
+        },
+        beforeDestroy() {
+          console.log("beforeDestroy");
+        },
+        destroyed() {
+          console.log("destroyed");
+        },
+        component: {},
+      });
+    </script>
+  </body>
+</html>
